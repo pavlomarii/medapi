@@ -1,13 +1,31 @@
+# == Schema Information
+#
+# Table name: companies
+#
+#  id            :bigint           not null, primary key
+#  name          :string           not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  latitude      :decimal(10, 6)
+#  longitude     :decimal(10, 6)
+#  address       :string
+#  phone         :string
+#  email         :string
+#  website       :string
+#  working_hours :time             default([]), is an Array
+#
+# Indexes
+#
+#  index_companies_on_address                 (address) UNIQUE
+#  index_companies_on_email                   (email) UNIQUE
+#  index_companies_on_latitude_and_longitude  (latitude,longitude) UNIQUE
+#  index_companies_on_name                    (name) UNIQUE
+#  index_companies_on_phone                   (phone) UNIQUE
+#  index_companies_on_website                 (website) UNIQUE
+#
 class CompanySerializer < ActiveModel::Serializer
-  attributes :id, :name, :created_at, :updated_at, :amount_users, :amount_patients
+  include Countable
 
-  def amount_users
-    object.users.size
-  end
-
-  def amount_patients
-    object.users.map do |user|
-      user.patients.size
-    end.sum
-  end
+  attributes :id, :name, :created_at, :updated_at, :latitude, :longitude, :address, :phone,
+             :email, :website, :working_hours, :amount_users, :amount_patients
 end

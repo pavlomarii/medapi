@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: companies
@@ -25,8 +23,8 @@
 #  index_companies_on_phone                   (phone) UNIQUE
 #  index_companies_on_website                 (website) UNIQUE
 #
-class Company < ApplicationRecord
-  has_many :users, dependent: :nullify
+class CompanySlimSerializer < ActiveModel::Serializer
+  include Countable
 
-  validates :name, presence: true, uniqueness: true
+  attributes :id, :name, :website, :amount_users, :amount_patients
 end

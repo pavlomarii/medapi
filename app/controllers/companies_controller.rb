@@ -1,8 +1,14 @@
+# frozen_string_literal: true
+
 class CompaniesController < ApplicationController
-  skip_before_action :authenticate_request
+  before_action :set_company, only: [:show, :destroy]
 
   def index
-    render json: Company.includes(users: [:patients]).all, status: :ok
+    render json: Company.includes(users: [:patients]).all, each_serializer: CompanySlimSerializer, status: :ok
+  end
+
+  def show
+    render json: @company, serializer: CompanySerializer, status: :ok
   end
 
   def create
@@ -14,9 +20,17 @@ class CompaniesController < ApplicationController
     end
   end
 
+  def destroy
+
+  end
+
   private
 
   def company_params
     params.permit(:name)
+  end
+
+  def set_company
+    @company = Company.find(params[:id])
   end
 end

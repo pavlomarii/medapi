@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_31_200714) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_23_155731) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,6 +18,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_31_200714) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
+    t.string "address"
+    t.string "phone"
+    t.string "email"
+    t.string "website"
+    t.time "working_hours", default: [], array: true
+    t.index ["address"], name: "index_companies_on_address", unique: true
+    t.index ["email"], name: "index_companies_on_email", unique: true
+    t.index ["latitude", "longitude"], name: "index_companies_on_latitude_and_longitude", unique: true
+    t.index ["name"], name: "index_companies_on_name", unique: true
+    t.index ["phone"], name: "index_companies_on_phone", unique: true
+    t.index ["website"], name: "index_companies_on_website", unique: true
   end
 
   create_table "laboratory_sets", force: :cascade do |t|
